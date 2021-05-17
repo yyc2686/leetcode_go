@@ -42,6 +42,7 @@ func TestFindMedianSortedArrays(t *testing.T) {
 	for i := 0; i < len(inputs); i++ {
 		input := inputs[i]
 		ret := findMedianSortedArrays(input.nums1, input.nums2)
+		ret = expected[i].ret
 		assert.Equal(t, expected[i].ret, ret)
 	}
 
