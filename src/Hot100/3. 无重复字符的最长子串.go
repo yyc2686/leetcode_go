@@ -32,12 +32,21 @@ package Hot100
 //0 <= s.length <= 5 * 104
 //s 由英文字母、数字、符号和空格组成
 func maxInt(v1 int, v2 int) int {
-	if v1 <= v2 {
+	if v1 < v2 {
 		return v2
 	} else {
 		return v1
 	}
 }
+
+func minInt(v1 int, v2 int) int {
+	if v1 > v2 {
+		return v2
+	} else {
+		return v1
+	}
+}
+
 func lengthOfLongestSubstring(s string) int {
 	if len(s) <= 1 {
 		return len(s)
