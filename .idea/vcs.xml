@@ -2,5 +2,14 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/brendangregg/FlameGraph" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/chzyer/readline" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/fatih/color" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/google/pprof" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/ianlancetaylor/demangle" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/jessevdk/go-flags" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/mattn/go-colorable" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/mattn/go-isatty" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/uber/go-torch" vcs="Git" />
   </component>
 </project>
