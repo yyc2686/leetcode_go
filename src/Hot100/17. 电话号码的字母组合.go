@@ -1,5 +1,9 @@
 package Hot100
 
+import (
+	"reflect"
+)
+
 //17. 电话号码的字母组合
 //给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。
 //
@@ -185,6 +189,23 @@ func (entry *sliceEntry) IsEmpty() bool {
 		return true
 	}
 	return false
+}
+
+func (entry *sliceEntry) Contains(e Element) bool {
+	for _, element := range entry.element {
+		if Compare(&e, &element) {
+			return true
+		}
+	}
+	return false
+}
+
+func Compare(p1, p2 *Element) bool {
+	if reflect.DeepEqual(p1, p2) {
+		return true
+	} else {
+		return false
+	}
 }
 
 func letterCombinations(digits string) []string {
