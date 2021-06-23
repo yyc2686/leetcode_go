@@ -64,7 +64,7 @@ func ConvertSliceToTreeNode(slice []int) *TreeNode {
 		}
 		cap := queue.Size()
 		for i := 0; i < cap; i++ {
-			node := queue.Pop().(*TreeNode)
+			node := queue.Poll().(*TreeNode)
 			if k < size {
 				if slice[k] != -1 {
 					node.Left = &TreeNode{slice[k], nil, nil}
