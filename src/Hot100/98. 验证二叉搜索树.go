@@ -1,5 +1,7 @@
 package Hot100
 
+import "math"
+
 //98. 验证二叉搜索树
 //给定一个二叉树，判断其是否是一个有效的二叉搜索树。
 //
@@ -27,11 +29,37 @@ package Hot100
 //解释: 输入为: [5,1,4,null,null,3,6]。
 //根节点的值为 5 ，但是其右子节点值为 4 。
 
-const INT_MAX = int(^uint(0) >> 1)
-const INT_MIN = ^INT_MAX
+//const INT_MAX = int(^uint(0) >> 1)
+//const INT_MIN = ^INT_MAX
+const INT_MIN = math.MinInt64
+
+// 中序遍历
+func isValidBST(root *TreeNode) bool {
+	var PreVal = INT_MIN
+	var helper func(root *TreeNode) bool
+	helper = func(root *TreeNode) bool {
+		if root == nil {
+			return true
+		}
+
+		if !helper(root.Left) {
+			return false
+		}
+		if root.Val > PreVal {
+			PreVal = root.Val
+		} else {
+			return false
+		}
+		if !helper(root.Right) {
+			return false
+		}
+		return true
+	}
+	return helper(root)
+}
 
 // 递归实现
-func isValidBST(root *TreeNode) bool {
+func isValidBST1(root *TreeNode) bool {
 	// 空树与孤立节点为BST
 	if root == nil || root.Left == nil && root.Right == nil {
 		return true

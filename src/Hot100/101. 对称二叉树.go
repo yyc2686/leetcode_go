@@ -117,7 +117,7 @@ func isSymmetric2(root *TreeNode) bool {
 }
 
 // 递归实现（代码优化）
-func isSymmetric4(root *TreeNode) bool {
+func isSymmetric(root *TreeNode) bool {
 	return isSymmetricTree(root, root)
 }
 
