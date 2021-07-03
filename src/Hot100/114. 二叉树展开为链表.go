@@ -33,7 +33,7 @@ package Hot100
 // 递归实现（优化空间，原地算法）（未实现）
 
 // 递归实现
-func flatten1(root *TreeNode) *TreeNode {
+func flatten(root *TreeNode) *TreeNode {
 
 	var helper func(root *TreeNode) *TreeNode
 	helper = func(root *TreeNode) *TreeNode {
