@@ -52,6 +52,22 @@ func ConvertSliceToListNode(slice []int) *ListNode {
 	return head.Next
 }
 
+func LinkTwoListNode(head *ListNode, sourceId int, targetId int) *ListNode {
+	if sourceId == -1 {
+		return head
+	}
+
+	ps, pt := head, head
+	for ; sourceId > 0; sourceId-- {
+		ps = ps.Next
+	}
+	for ; targetId > 0; targetId-- {
+		pt = pt.Next
+	}
+	ps.Next = pt
+	return head
+}
+
 func reverseListNode(head *ListNode) *ListNode {
 	if head == nil || head.Next == nil {
 		return head
