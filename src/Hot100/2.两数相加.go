@@ -68,6 +68,22 @@ func LinkTwoListNode(head *ListNode, sourceId int, targetId int) *ListNode {
 	return head
 }
 
+func AppendHeadB2TailA(headA *ListNode, headB *ListNode) *ListNode {
+	if headA == nil {
+		return headB
+	}
+	if headB == nil {
+		return headA
+	}
+
+	p := headA
+	for p.Next != nil {
+		p = p.Next
+	}
+	p.Next = headB
+	return headA
+}
+
 func reverseListNode(head *ListNode) *ListNode {
 	if head == nil || head.Next == nil {
 		return head
