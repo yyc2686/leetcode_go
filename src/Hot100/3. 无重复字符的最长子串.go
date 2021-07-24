@@ -34,17 +34,15 @@ package Hot100
 func maxInt(v1 int, v2 int) int {
 	if v1 < v2 {
 		return v2
-	} else {
-		return v1
 	}
+	return v1
 }
 
 func minInt(v1 int, v2 int) int {
 	if v1 > v2 {
 		return v2
-	} else {
-		return v1
 	}
+	return v1
 }
 
 func lengthOfLongestSubstring(s string) int {
