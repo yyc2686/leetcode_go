@@ -5,29 +5,31 @@ import (
 	"testing"
 )
 
-type RobInput struct {
-	nums []int
+type NumIslandsInput struct {
+	ngrid [][]byte
 }
 
-type RobOutput struct {
+type NumIslandsOutput struct {
 	ret int
 }
 
-func TestRob(t *testing.T) {
+func TestNumIslands(t *testing.T) {
 
-	inputs := []RobInput{
-		{[]int{1, 2, 3, 1}},
-		{[]int{2, 7, 9, 3, 1}},
+	inputs := []NumIslandsInput{
+		{[][]byte{{'1', '1', '1'}, {'0', '1', '0'}, {'1', '1', '1'}}},
+		{[][]byte{{'1', '1', '1', '1', '0'}, {'1', '1', '0', '1', '0'}, {'1', '1', '0', '0', '0'}, {'0', '0', '0', '0', '0'}}},
+		{[][]byte{{'1', '1', '0', '0', '0'}, {'1', '1', '0', '0', '0'}, {'0', '0', '1', '0', '0'}, {'0', '0', '0', '1', '1'}}},
 	}
 
-	expected := []RobOutput{
-		{4},
-		{12},
+	expected := []NumIslandsOutput{
+		{1},
+		{1},
+		{3},
 	}
 
 	for i := 0; i < len(inputs); i++ {
 		input := inputs[i]
-		ret := numIslands(input.nums)
+		ret := numIslands(input.ngrid)
 		assert.Equal(t, expected[i].ret, ret)
 	}
 }
