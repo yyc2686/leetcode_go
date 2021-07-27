@@ -36,10 +36,11 @@ package Hot100
 // 1 <= m, n <= 300
 // grid[i][j] 的值为 '0' 或 '1'
 
-// 并查集
+// 并查集（可优化）
 type unionFindSet struct {
-	ufSet map[Element]Element
-	rank  map[Element]int
+	ufSet  map[Element]Element
+	rank   map[Element]int
+	branch int
 }
 
 func NewUnionFindSet() *unionFindSet {
@@ -56,6 +57,7 @@ func (entry *unionFindSet) Find(e Element) Element {
 	if val, ok := entry.ufSet[e]; !ok {
 		entry.ufSet[e] = e
 		entry.rank[e]++
+		entry.branch++
 		return e
 	} else if val == e {
 		return e
@@ -77,6 +79,11 @@ func (entry *unionFindSet) Union(x Element, y Element) {
 		entry.ufSet[j] = i
 		entry.rank[i]++
 	}
+	entry.branch--
+}
+
+func (entry *unionFindSet) GetBranchNum() int {
+	return entry.branch
 }
 
 func numIslands(grid [][]byte) int {
@@ -108,6 +115,10 @@ func numIslands(grid [][]byte) int {
 		}
 	}
 
+	// 统计连通分支数（优化后）
+	return entry.GetBranchNum()
+
+	// 统计连通分支数（优化前）
 	ufSetMap := make(map[Element]bool, 0)
 	for _, val := range entry.ufSet {
 		realVal := entry.Find(val)
