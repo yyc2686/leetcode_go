@@ -1,124 +1,98 @@
 package Hot100
 
-//238. 除自身以外数组的乘积
-//给你一个长度为 n 的整数数组 nums，其中 n > 1，返回输出数组 output ，其中 output[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积。
+//239. 滑动窗口最大值
+//给你一个整数数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。
+//
+//返回滑动窗口中的最大值。
 //
 //
 //
-//示例:
+//示例 1：
 //
-//输入: [1,2,3,4]
-//输出: [24,12,8,6]
+//输入：nums = [1,3,-1,-3,5,3,6,7], k = 3
+//输出：[3,3,5,5,6,7]
+//解释：
+//滑动窗口的位置                最大值
+//---------------               -----
+//[1  3  -1] -3  5  3  6  7       3
+//1 [3  -1  -3] 5  3  6  7       3
+//1  3 [-1  -3  5] 3  6  7       5
+//1  3  -1 [-3  5  3] 6  7       5
+//1  3  -1  -3 [5  3  6] 7       6
+//1  3  -1  -3  5 [3  6  7]      7
+//示例 2：
+//
+//输入：nums = [1], k = 1
+//输出：[1]
+//示例 3：
+//
+//输入：nums = [1,-1], k = 1
+//输出：[1,-1]
+//示例 4：
+//
+//输入：nums = [9,11], k = 2
+//输出：[11]
+//示例 5：
+//
+//输入：nums = [4,-2], k = 2
+//输出：[4]
 //
 //
-//提示：题目数据保证数组之中任意元素的全部前缀元素和后缀（甚至是整个数组）的乘积都在 32 位整数范围内。
+//提示：
 //
-//说明: 请不要使用除法，且在 O(n) 时间复杂度内完成此题。
-//
-//进阶：
-//你可以在常数空间复杂度内完成这个题目吗？（ 出于对空间复杂度分析的目的，输出数组不被视为额外空间。）
+//1 <= nums.length <= 105
+//-104 <= nums[i] <= 104
+//1 <= k <= nums.length
 
-// 左右乘积+空间优化
-func productExceptSelf(nums []int) []int {
+// 栈
+func maxSlidingWindow(nums []int, k int) []int {
 	size := len(nums)
-	left := make([]int, size)
-	left[0] = 1
-	for i := 1; i < size; i++ {
-		left[i] = left[i-1] * nums[i-1]
+	ret := make([]int, size-k+1)
+	stack := make([]int, k)
+
+	for i := 0; i < k; i++ {
+		stack[i] = nums[i]
 	}
 
-	right := 1
-	for i := size - 1; i >= 0; i-- {
-		left[i] = left[i] * right
-		right *= nums[i]
-	}
-	return left
-}
-
-// 左右乘积（省去分类讨论）
-func productExceptSelf3(nums []int) []int {
-	size := len(nums)
-	left := make([]int, size)
-	left[0] = 1
-	for i := 1; i < size; i++ {
-		left[i] = left[i-1] * nums[i-1]
-	}
-
-	right := make([]int, size)
-	right[size-1] = 1
-	for i := size - 2; i >= 0; i-- {
-		right[i] = right[i+1] * nums[i+1]
-	}
-
-	for i := 0; i < size; i++ {
-		nums[i] = left[i] * right[i]
-	}
-	return nums
-}
-
-// 暴力解法+递归实现，运行超时（19 / 20）
-func productExceptSelf2(nums []int) []int {
-	product := 1
-	count := 0
-	for _, t := range nums {
-		if t == 0 {
-			count++
-			continue
-		}
-		product *= t
-	}
-	if count > 1 {
-		for i := 0; i < len(nums); i++ {
-			nums[i] = 0
-		}
-		return nums
-	}
-	if count == 1 {
-		for i := 0; i < len(nums); i++ {
-			if nums[i] == 0 {
-				nums[i] = product
-			} else {
-				nums[i] = 0
-			}
-		}
-		return nums
-	}
-
-	var helper func(arrs []int) int
-	helper = func(arrs []int) int {
-		ret := 1
-		for _, arr := range arrs {
-			ret *= arr
+	var helper func(x, y int) int
+	helper = func(x, y int) int {
+		ret := nums[x]
+		for i := x + 1; i <= y; i++ {
+			ret = maxInt(ret, nums[i])
 		}
 		return ret
 	}
-	res := make([]int, len(nums))
-	for i := 0; i < len(nums); i++ {
-		arr := append([]int{}, nums...)
-		res[i] = helper(append(arr[:i], arr[i+1:]...))
+
+	i := 0
+	j := k - 1
+	for j < size {
+		ret[i] = helper(i, j)
+		i++
+		j++
 	}
-	return res
+	return ret
 }
 
-// 使用除法，两趟遍历 + 分类讨论
-func productExceptSelf1(nums []int) []int {
-	product := 1
-	count := 0
-	for _, t := range nums {
-		if t == 0 {
-			count++
-			continue
+// 暴力解法运行超时（52 / 61）
+func maxSlidingWindow1(nums []int, k int) []int {
+	size := len(nums)
+	ret := make([]int, size-k+1)
+
+	var helper func(x, y int) int
+	helper = func(x, y int) int {
+		ret := nums[x]
+		for i := x + 1; i <= y; i++ {
+			ret = maxInt(ret, nums[i])
 		}
-		product *= t
+		return ret
 	}
-	for i := 0; i < len(nums); i++ {
-		if count == 0 {
-			nums[i] = product / nums[i]
-		} else if count == 1 && nums[i] == 0 {
-			nums[i] = product
-		} else {
-			nums[i] = 0
-		}
+
+	i := 0
+	j := k - 1
+	for j < size {
+		ret[i] = helper(i, j)
+		i++
+		j++
 	}
-	return nums
+	return ret
 }
